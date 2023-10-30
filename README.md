@@ -142,7 +142,7 @@ Will be developing the code on our PC or laptop. The version of Visual Studio Co
     ```
 The server should start up and you can interact with the phone. 
 ![Web Interface](images/web.png)
-
+If you want to make the server run automatically when the Raspberry Pi starts you can do this by editing the rc.local file. 
 Have fun
 
 Rob Miles
