@@ -31,7 +31,7 @@ Steps to install software:
 1. Set the advanced options in the Imager program. Now make the folling settings. 
     1. Hostname (I called mine "theredphone")
     1. Enable SSH (password authentication)
-    1. User: xxxx Password: xxxxxx (don't use x, put in your own words)
+    1. User: xxxx Password: xxxxxx (don't use x, put in your own words) I created a user called rob (it's used in the ssh command a few steps down)
     1. Set Wi-Fi credentials and locale
     1. Save the options so you can use them again if you need to
 1. Make the image.
@@ -41,7 +41,7 @@ Steps to install software:
     ```
     ssh theredphone.local -l rob
     ```
-1.	Use the name of the computer that you set in the steps above. Say yes to set up the connection if it is the first time you've connected.
+1.	Use the name of the computer and the username that you set in the steps above. Say yes to set up the connection if it is the first time you've connected.
 1.	Give your password when it is requested.
 1.  Once you've logged in you should update your computer:
     ```
@@ -142,7 +142,7 @@ Will be developing the code on our PC or laptop. The version of Visual Studio Co
     ```
 The server should start up and you can interact with the phone. 
 ![Web Interface](images/web.png)
-
+If you want to make the server run automatically when the Raspberry Pi starts you can do this by editing the rc.local file. 
 Have fun
 
 Rob Miles
