@@ -36,5 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 const port = 3000;
 console.log(`Server listening on:${port}`);
 
+phone.ding();
+
 app.listen(port, () => console.log("Server started"));
 
