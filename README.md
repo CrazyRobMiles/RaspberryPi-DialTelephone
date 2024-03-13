@@ -125,7 +125,7 @@ Will be developing the code on our PC or laptop. The version of Visual Studio Co
         ```
     1. Two plugins should be found. Click the gear icon and select "Disable Workspace" from the menu for each. You will lose a few useful features when editing the code, but at least the Raspberry Pi won't freeze up.
 1. Ensure you have Remote Development installed on your machine. If you don't, open extensions and install it. If it is installed you will have a green icon in the bottom left of your Visual Studio Window. Click this to open a remote development window.
-1.  Select "Connect to Host - Remote SSL" from the menu which appears. The first time you make the connection you will be asked to enter the username and address of your machine. I used rob@redphone.local - you use the one you set. 
+1.  Select "Connect to Host - Remote SSH" from the menu which appears. The first time you make the connection you will be asked to enter the username and address of your machine. I used rob@redphone.local - you use the one you set. 
 1. Create a new remote connection (rob@theredphone.local)
 1.	Now clone the repository.
     1. Select "Clone a repository" from the start page of Visual Studio Code and open the following repository:
