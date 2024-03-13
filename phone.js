@@ -46,6 +46,10 @@ doDial(){
     this.soundOutput.playFile('dialTone');
 }
 
+ding(){
+    this.ringer.ding();
+}
+
 handsetPickedUp(){
     if(this.ringer.ringing){
         this.stopRinging();
@@ -122,6 +126,11 @@ randomCall(){
     });
 }
 
+receiveQuestion(){
+    
+
+}
+
 
 numberDialed(number){
     if(this.handsetSwitch.handsetOffPhone()){
@@ -133,6 +142,9 @@ numberDialed(number){
                 break;
                 case 2:
                 this.randomCall();
+                break;
+                case 3:
+                this.receiveQuestion();
                 break;
             }
         });
