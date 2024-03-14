@@ -2,6 +2,7 @@ const Ringer = require('./ringer');
 const HandsetSwitch = require('./handsetSwitch');
 const Dial = require('./dial');
 const SoundOutput = require('./helpers/soundOutput');
+const SoundInput = require('./helpers/soundInput');
 const Speech = require('./speech');
 
 class Phone{
@@ -20,6 +21,7 @@ constructor(owner) {
     this.handsetSwitch = new HandsetSwitch(this);
     this.dial = new Dial(this);
     this.soundOutput = new SoundOutput(this);
+    this.soundInput = new SoundInput(this);
     this.speech = new Speech(this);
     this.ringing = false;
     this.ringStart = null;
@@ -127,10 +129,18 @@ randomCall(){
 }
 
 receiveQuestion(){
-    
-
+    this.soundOutput.playFile('ringingTone');
+    let ringDelayMillis = this.getRandom(1000,3000);
+    this.delay(ringDelayMillis).then(()=>{
+        this.soundOutput.stopPlayback();
+        this.soundOutput.playFile('handsetPickup');
+        let pickupDelayMillis = 1500;
+        this.delay(pickupDelayMillis).then(()=>{
+            this.speech.say("Ask your question and replace the handset. I will call back with the answer.");
+            this.soundInput.recordFile("message");
+        });
+    });
 }
-
 
 numberDialed(number){
     if(this.handsetSwitch.handsetOffPhone()){
