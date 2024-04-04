@@ -1,6 +1,11 @@
 # Raspberry Pi 
 ![Red Phone](images/RedPhone.jpg)
 Make an old-style dial telephone into something a bit more interesting.
+
+[![YouTube Screenshot](images/video.jpg)](https://youtu.be/aNzIdzsJkjI)
+
+To find out more about the device click on the image above to see a short video.
+
 ## Building the device
 The parts you'll need are as follows:
 
