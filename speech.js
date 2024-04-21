@@ -23,8 +23,42 @@ class Speech{
             console.log('Message spoken successfully');
           }
         });
-        
+       
     }
+
+    asyncSay(message){
+
+      if(this.speaking)
+      {
+          this.stopSpeaking();
+      }
+
+      const { exec } = require('child_process');
+
+      const result = new Promise((resolve, reject) => {
+        // Use the eSpeak command to speak the message
+
+        const speakCommand = `espeak -v en -p40 -s120 -g5"${message}"`;
+
+        exec(speakCommand, (error, stdout, stderr) => {
+          if (error) {
+            reject (`Error: ${error.message}`);
+          } else {
+            const speakClear = `espeak -v en -p40 -s120 -g5 -q "stop"`;
+            exec(speakClear, (error, stdout, stderr) => {
+              if (error) {
+                reject (`Error: ${error.message}`);
+              } else {
+                resolve('Message spoken successfully');
+            };
+          });
+        }
+      });
+    });
+
+    return result;
+  }
+
 
     stopSpeaking(){
 

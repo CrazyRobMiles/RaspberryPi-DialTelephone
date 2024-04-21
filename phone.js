@@ -27,6 +27,7 @@ constructor(owner) {
     this.ringStart = null;
     this.ringLengthMillis = 10000;
     this.dialing=false;
+    this.recording=false;
     this.messages = null;
 
     setInterval(() => {
@@ -72,6 +73,11 @@ handsetPickedUp(){
 }
 
     handsetPutDown(){
+
+        // If we are recording something - stop it
+
+        this.soundInput.stopRecording();
+
         if(this.dialing){
             console.log("Handset replaced while dialing");
             this.soundOutput.stopPlayback();
@@ -137,6 +143,7 @@ receiveQuestion(){
         let pickupDelayMillis = 1500;
         this.delay(pickupDelayMillis).then(()=>{
             this.speech.say("Ask your question and replace the handset. I will call back with the answer.");
+
             this.soundInput.recordFile("message");
         });
     });
