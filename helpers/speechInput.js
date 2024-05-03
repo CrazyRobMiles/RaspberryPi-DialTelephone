@@ -1,7 +1,7 @@
-class Speech{
+class SpeechInput{
     constructor(owner) {
         this.owner = owner;
-        this.speaking = false;
+        this.deoding = false;
     }
     
     say(message){
@@ -13,8 +13,7 @@ class Speech{
         const { exec } = require('child_process');
 
         // Use the eSpeak command to speak the message
-
-        const speakCommand = `espeak -v en -p40 -s120 -g5  "${message}"`;
+        const decodeCommand = `espeak -v en -p40 -s120 -g5  "${message}"`;
 
         exec(speakCommand, (error, stdout, stderr) => {
           if (error) {
@@ -65,4 +64,4 @@ class Speech{
     }
 }
 
-module.exports = Speech;
+module.exports = SpeechOutput;

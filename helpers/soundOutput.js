@@ -7,10 +7,9 @@ class SoundOutput {
       this.audio = null;
     }
 
-    playFile(soundFileName){
+    playFile(filename){
         if(!this.playing){
             this.playing = true;
-            let filename = `./sounds/${soundFileName}.wav`;
             console.log(`Playing file: ${filename}`);
             this.audio = player.play(filename, {aplay:[]},(err)=>{console.log(`Play failed:${err}`)});
         }
