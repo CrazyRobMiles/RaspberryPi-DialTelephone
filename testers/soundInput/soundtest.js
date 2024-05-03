@@ -15,7 +15,7 @@ channels: 1,
 device: 'plughw:1,0'
 });
 
-const fileStream = fs.createWriteStream('mictest2.wav', { encoding: 'binary' });
+const fileStream = fs.createWriteStream('mictest4.wav', { encoding: 'binary' });
 recordingStream.stream().pipe(fileStream);
 
 console.log('Recording for 5 seconds...');
