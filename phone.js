@@ -4,6 +4,8 @@ const Dial = require('./dial');
 const SoundOutput = require('./helpers/soundOutput');
 const SoundInput = require('./helpers/soundInput');
 const SpeechOutput = require('./helpers/speechOutput');
+const SpeechInput = require('./helpers/speechInput');
+const LLM = require('./helpers/LLM');
 
 class Phone{
 
@@ -23,12 +25,25 @@ class Phone{
         this.soundOutput = new SoundOutput(this);
         this.soundInput = new SoundInput(this);
         this.speechOutput = new SpeechOutput(this);
+        this.speechInput = new SpeechInput(this);
+        this.llm = new LLM(this);
+        this.llm.askAI(`Do you like cheese`);
         this.ringing = false;
         this.ringStart = null;
         this.randomCallStart = null;
+        this.recordMessageTimerDate = null;
+        this.playbackMessageTimerDate = null;
+        this.questionMessageTimer = null;
         this.ringLengthMillis = 10000;
         this.randomCallTimeoutMillis = 10000;
         this.incomingSpeechDelayMillis = 600;
+        this.recordPromptDelayMillis = 1500;
+        this.recordMaximumLengthMillis = 10000;
+        this.receiveRingDelayMillis = 500;
+        this.playbackMessageDelayMillis = 0;
+        this.playbackMessageTimeoutMillis = 30000;
+        this.questionMessageDelayMillis = 0;
+        this.questionText = null;
         this.dialing=false;
         this.recording=false;
         this.message = null;
@@ -46,6 +61,7 @@ class Phone{
                     return 'DIAL_TONE'; 
                 },
                 'Handset replaced': () => { 
+                    this.soundOutput.stopPlayback();
                     this.ringer.ding(); 
                     return 'REST'; 
                 },
@@ -69,8 +85,8 @@ class Phone{
    
             DIAL_TONE: {
                 'Handset replaced': () => { 
-                    this.soundOutput.stopPlayback();
                     this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
                     return 'REST'; 
                 },
                 'Number dialed': () => { 
@@ -96,7 +112,6 @@ class Phone{
                     return 'TEST_RING'; 
                 }
             },
-
             DIALING: {
                 'Handset replaced': () => { 
                     this.ringer.ding(); 
@@ -110,13 +125,175 @@ class Phone{
 
                         case 2: // Make a random call
                             this.randomCallStart = new Date();
+                            this.soundOutput.stopPlayback();
+                            this.soundOutput.playFile('./sounds/engagedTone.wav');
                             return 'START_RANDOM_CALL';
+
+                        case 3: // Record a message
+                            this.soundOutput.playFile('./sounds/ringingTone.wav');
+                            this.recordMessageTimerDate = new Date();
+                            this.receiveRingDelayMillis = this.getRandom(1000,3000);
+                            return 'RECORD_PICKUP_DELAY';
+                        case 4: // Playback a message
+                            this.soundOutput.playFile('./sounds/ringingTone.wav');
+                            this.playbackMessageTimerDate = new Date();
+                            this.playbackMessageDelayMillis = this.getRandom(1000,3000);
+                            return 'PLAYBACK_PICKUP_DELAY';
+                        case 5: // Receive a question
+                            this.soundOutput.playFile('./sounds/ringingTone.wav');
+                            this.questionMessageTimer = new Date();
+                            this.questionMessageDelayMillis = this.getRandom(1000,3000);
+                            return 'QUESTION_PICKUP_DELAY';
+
+                        default:// Do nothing
+                            this.soundOutput.playFile('./sounds/numberUnobtainable.wav');
+                            return 'REST';
+                    }
                 }
+            },
+            PLAYBACK_PICKUP_DELAY : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.playbackMessageTimerDate = null;
+                    return 'REST'; 
+                },
+                'Timer tick': (date) => {
+                    if (this.playbackMessageTimerDate){
+                        let waitTime = date - this.playbackMessageTimerDate;
+                        if (waitTime>this.playbackMessageDelayMillis){
+                            this.playbackMessageTimerDate = new Date();
+                            this.soundOutput.stopPlayback();
+                            this.soundOutput.playFile('./sounds/handsetPickup.wav');
+                            return 'PLAYBACK_PICKUP_SOUND_PLAYING';
+                        }
+                    }
+                    return 'PLAYBACK_PICKUP_DELAY';
+                }
+            },            
+            PLAYBACK_PICKUP_SOUND_PLAYING: {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.recordMessageTimerDate = null;
+                    return 'REST'; 
+                },
+                'Timer tick': (date) => {
+                    if(this.playbackMessageTimerDate){
+                        let waitTime = date - this.playbackMessageTimerDate;
+                        if (waitTime>this.receiveRingDelayMillis){
+                            this.recordMessageTimerDate = new Date();
+                            this.soundOutput.stopPlayback();
+                            this.soundOutput.playFile('./recordings/message.wav');
+                            return 'PLAYBACK_SOUND_PLAYING';
+                        }
+                    }
+                    return 'PLAYBACK_PICKUP_SOUND_PLAYING';
+                }
+            },
+            PLAYBACK_SOUND_PLAYING : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.recordMessageTimerDate = null;
+                    return 'REST'; 
+                },
+                'Timer tick': (date) => {
+                    if(this.playbackMessageTimerDate){
+                        let waitTime = date - this.playbackMessageTimerDate;
+                        if (waitTime>this.playbackMessageTimeoutMillis){
+                            this.soundOutput.stopPlayback();
+                            this.soundOutput.playFile('./sounds/numberUnobtainable.wav');
+                            return 'REST';
+                        }
+                    }
+                    return 'PLAYBACK_SOUND_PLAYING';
+                }
+            },
+            RECORD_PICKUP_DELAY : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.questionMessageTimer = null;
+                    return 'REST'; 
+                },
+                'Timer tick': (date) => {
+                    if (this.questionMessageTimer){
+                        let waitTime = date - this.questionMessageTimer;
+                        if (waitTime>this.receiveRingDelayMillis){
+                            this.questionMessageTimer = new Date();
+                            this.soundOutput.stopPlayback();
+                            this.soundOutput.playFile('./sounds/handsetPickup.wav');
+                            return 'RECORD_PICKUP_SOUND_PLAYING';
+                        }
+                    }
+                    return 'RECORD_PICKUP_DELAY';
+                }
+            },            
+            RECORD_PICKUP_SOUND_PLAYING: {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.recordMessageTimerDate = null;
+                    return 'REST'; 
+                },
+                'Timer tick': (date) => {
+                    if(this.recordMessageTimerDate){
+                        let waitTime = date - this.recordMessageTimerDate;
+                        if (waitTime>this.receiveRingDelayMillis){
+                            this.recordMessageTimerDate = new Date();
+                            this.soundOutput.stopPlayback();
+                            this.speechOutput.say("Please leave your message");
+                            return 'RECORD_PROMPT_MESSAGE_PLAYING';
+                        }
+                    }
+                    return 'RECORD_PICKUP_SOUND_PLAYING';
+                }
+            },
+            RECORD_PROMPT_MESSAGE_PLAYING : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.recordMessageCallStart = null;
+                    return 'REST'; 
+                },
+
+                'Timer tick': (date) => {
+                    if(this.recordMessageTimerDate){
+                        let waitTime = date - this.recordMessageTimerDate;
+                        if (waitTime>this.recordPromptDelayMillis){
+                            this.recordMessageTimerDate = new Date();
+                            this.soundInput.startRecording(`./recordings/message.wav`);
+                            return 'RECORDING_MESSAGE';
+                        }
+                    }
+                    return 'RECORD_PROMPT_MESSAGE_PLAYING';
+                }
+            },
+            RECORDING_MESSAGE:{
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundInput.stopRecording();
+                    this.recordMessageCallStart = null;
+                    return 'REST'; 
+                },
+
+                'Timer tick': (date) => {
+                    if(this.recordMessageTimerDate){
+                        let waitTime = date - this.recordMessageTimerDate;
+                        if (waitTime>this.recordMaximumLengthMillis){
+                            this.soundInput.stopRecording();
+                            this.ringer.ding();
+                            return 'REST';
+                        }
+                    }
+                    return 'RECORDING_MESSAGE';
                 }
             },
             START_RANDOM_CALL: {
                 'Handset replaced': () => { 
                     this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
                     this.randomCallDelayMillis = this.getRandom(1000,5000);
                     this.randomCallStart = new Date();
                     return 'RANDOM_CALL_DELAY'; 
@@ -151,7 +328,6 @@ class Phone{
                     return 'RANDOM_CALL_DELAY';
                 }
             },
-
             MESSAGE_RINGING : {
                 'Timer tick': (date) => {
                     if(this.ringStart != null){
@@ -185,7 +361,103 @@ class Phone{
             PLAYING_SPEECH_MESSAGE : {
                 'Handset replaced': () => { 
                     this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
                     return 'REST'; }
+            },
+            QUESTION_PICKUP_DELAY : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.questionMessageTimer = null;
+                    return 'REST'; 
+                },
+
+                'Timer tick': (date) => {
+                    if (this.questionMessageTimer){
+                        let waitTime = date - this.questionMessageTimer;
+                        if (waitTime>this.receiveRingDelayMillis){
+                            this.questionMessageTimer = new Date();
+                            this.soundOutput.stopPlayback();
+                            this.soundOutput.playFile('./sounds/handsetPickup.wav');
+                            return 'QUESTION_PICKUP_SOUND_PLAYING';
+                        }
+                    }
+                    return 'QUESTION_PICKUP_DELAY';
+                }
+            },
+            QUESTION_PICKUP_SOUND_PLAYING: {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.questionMessageTimer = null;
+                    return 'REST'; 
+                },
+                'Timer tick': (date) => {
+                    if(this.questionMessageTimer){
+                        let waitTime = date - this.questionMessageTimer;
+                        if (waitTime>this.receiveRingDelayMillis){
+                            this.questionMessageTimer = new Date();
+                            this.soundOutput.stopPlayback();
+                            this.speechOutput.say("Ask your question");
+                            return 'QUESTION_PROMPT_MESSAGE_PLAYING';
+                        }
+                    }
+                    return 'QUESTION_PICKUP_SOUND_PLAYING';
+                }
+            },
+            QUESTION_PROMPT_MESSAGE_PLAYING : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    this.questionMessageTimer = null;
+                    return 'REST'; 
+                },
+
+                'Timer tick': (date) => {
+                    if(this.questionMessageTimer){
+                        let waitTime = date - this.questionMessageTimer;
+                        if (waitTime>this.recordPromptDelayMillis){
+                            this.questionMessageTimer = new Date();
+                            this.soundInput.startRecording(`./recordings/question.wav`);
+                            return 'RECORDING_QUESTION';
+                        }
+                    }
+                    return 'QUESTION_PROMPT_MESSAGE_PLAYING';
+                }
+            },
+            RECORDING_QUESTION:{
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundInput.stopRecording();
+                    this.speechInput.startSpeechDecode(`./recordings/question.wav`);
+                    this.questionMessageTimer = new Date();
+                    return 'DOING_SPEECH_TO_TEXT'; 
+                },
+
+                'Timer tick': (date) => {
+                    if(this.questionMessageTimer){
+                        let waitTime = date - this.questionMessageTimer;
+                        if (waitTime>this.recordMaximumLengthMillis){
+                            this.soundInput.stopRecording();
+                            this.ringer.ding();
+                            return 'REST';
+                        }
+                    }
+                    return 'RECORDING_QUESTION';
+                }
+            },
+            DOING_SPEECH_TO_TEXT:{
+                'Handset picked up': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.playFile('./sounds/dialTone.wav');
+                    return 'DIAL_TONE'; 
+                },
+                'Text decoded': (text) => {
+                    this.questionText = text;
+                    console.log(`Speech decoded successfully: ${text}`);
+                    this.llm.askAI(text);
+                    return 'REST';
+                }
             },
             COMMAND_EXECUTION: {
                 'Handset replaced': () => { stopCurrentCommand(); return 'REST'; },
@@ -209,6 +481,8 @@ class Phone{
             this.update();
             }, 500);
     }
+
+
 
     // Master event handler
     handleEvent(event, data = null) {
@@ -241,6 +515,14 @@ class Phone{
     
     acceptMessage(message){
         this.handleEvent('Incoming message',message);
+    }
+
+    speechDecodedSuccessfully(text){
+        this.handleEvent('Text decoded',text);
+    }
+
+    LLMReplyReceived(text){
+        this.handleEvent('LLM reply received',text);
     }
     
     update(){
