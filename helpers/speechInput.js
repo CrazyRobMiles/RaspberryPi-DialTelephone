@@ -1,67 +1,41 @@
+const fs = require('fs');
+
 class SpeechInput{
     constructor(owner) {
         this.owner = owner;
         this.deoding = false;
+        this.speechTextFile = './recordings/message.txt';
     }
     
-    say(message){
-        if(this.speaking)
+    startSpeechDecode (messageFilename){
+
+        if(this.deoding)
         {
-            this.stopSpeaking();
+          console.log("Speech decode called when already decoding");
+          return;
         }
+
+        this.decoding = true;
 
         const { exec } = require('child_process');
 
-        // Use the eSpeak command to speak the message
-        const decodeCommand = `espeak -v en -p40 -s120 -g5  "${message}"`;
+        // Use the spchcat command to decode the message
+        const decodeCommand = `spchcat ${messageFilename} > ${this.speechTextFile}`;
 
-        exec(speakCommand, (error, stdout, stderr) => {
+        console.log(`Performing: ${decodeCommand}`);
+
+        exec(decodeCommand, (error, stdout, stderr) => {
           if (error) {
             console.error(`Error: ${error.message}`);
+            this.decoding=false;
           } else {
-            console.log('Message spoken successfully');
+            let message = fs.readFileSync(this.speechTextFile, 'utf8');
+            console.log(`Text decoded successfuly: ${message}`);
+            this.decoding=false;
+            this.owner.speechDecodedSuccessfully(message);
           }
         });
-       
-    }
-
-    asyncSay(message){
-
-      if(this.speaking)
-      {
-          this.stopSpeaking();
-      }
-
-      const { exec } = require('child_process');
-
-      const result = new Promise((resolve, reject) => {
-        // Use the eSpeak command to speak the message
-
-        const speakCommand = `espeak -v en -p40 -s120 -g5"${message}"`;
-
-        exec(speakCommand, (error, stdout, stderr) => {
-          if (error) {
-            reject (`Error: ${error.message}`);
-          } else {
-            const speakClear = `espeak -v en -p40 -s120 -g5 -q "stop"`;
-            exec(speakClear, (error, stdout, stderr) => {
-              if (error) {
-                reject (`Error: ${error.message}`);
-              } else {
-                resolve('Message spoken successfully');
-            };
-          });
-        }
-      });
-    });
-
-    return result;
-  }
-
-
-    stopSpeaking(){
-
     }
 }
 
-module.exports = SpeechOutput;
+module.exports = SpeechInput;

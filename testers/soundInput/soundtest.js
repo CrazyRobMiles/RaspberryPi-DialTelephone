@@ -1,4 +1,4 @@
-const Speech = require('./speech');
+const Speech = require('./././helpers/speechOutput');
 const recorder = require('node-record-lpcm16');
 const fs = require('fs');
 

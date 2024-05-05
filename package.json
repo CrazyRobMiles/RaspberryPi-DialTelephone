@@ -13,6 +13,8 @@
         "ejs": "^3.1.9",
         "express": "^4.18.2",
         "gtts": "^0.2.1",
+        "mic": "^2.1.2",
+        "node-fetch": "^2.7.0",
         "node-record-lpcm16": "^1.0.1",
         "node-wav": "^0.0.2",
         "onoff": "^6.0.3",
