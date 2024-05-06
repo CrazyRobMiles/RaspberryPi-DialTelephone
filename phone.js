@@ -27,7 +27,6 @@ class Phone{
         this.speechOutput = new SpeechOutput(this);
         this.speechInput = new SpeechInput(this);
         this.llm = new LLM(this);
-        this.llm.askAI(`Do you like cheese`);
         this.ringing = false;
         this.ringStart = null;
         this.randomCallStart = null;
@@ -48,6 +47,7 @@ class Phone{
         this.recording=false;
         this.message = null;
         this.eventCounter = 0;
+        this.llm.askAI("What is the price of cheese");
 
         // State of the phone
         this.state = "REST";
@@ -522,6 +522,7 @@ class Phone{
     }
 
     LLMReplyReceived(text){
+        console.log(`Got LLM reply ${text}`);
         this.handleEvent('LLM reply received',text);
     }
     
@@ -529,9 +530,6 @@ class Phone{
         let date = new Date();
         this.handleEvent('Timer tick', date);
     }
-
-
-
 
 doDial(){
 
