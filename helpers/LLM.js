@@ -11,6 +11,10 @@ class LLM{
     askAI(question) {
         console.log(`Asking ${this.llmURL} the question ${question}`);
 
+        let promptPrefix = `This is a conversation between User and Llama, a friendly chatbot. Llama is helpful, kind, honest, good at writing, and never fails to answer any requests immediately and with precision.`;
+
+        question = `${promptPrefix}\n\n${question}.`;
+
         let req = {
             method: 'POST',
             body: JSON.stringify({
@@ -32,7 +36,8 @@ class LLM{
                 grammar: '',
                 n_probs: 0, // no completion_probabilities,
                 image_data: [],
-                cache_prompt: true
+                cache_prompt: true,
+                api_key: ''
             })
         };
 
@@ -45,7 +50,7 @@ class LLM{
                 // Parse the response body as JSON
                 response.json().then( responseJSON => {
                     let answer = responseJSON.content;
-                    console.log();
+                    console.log(`Asked: ${question} Received: ${answer}`);
                     this.owner.LLMReplyReceived(answer);
                 });
             });
