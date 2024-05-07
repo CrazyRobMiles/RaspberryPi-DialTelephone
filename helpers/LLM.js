@@ -11,7 +11,7 @@ class LLM{
     askAI(question) {
         console.log(`Asking ${this.llmURL} the question ${question}`);
 
-        let promptPrefix = `This is a conversation between User and Llama, a friendly chatbot. Llama is helpful, kind, honest, good at writing, and never fails to answer any requests immediately and with precision.`;
+        let promptPrefix = `This is a conversation between User and Llama, a friendly chatbot. Llama is helpful, kind, honest, good at writing, and never fails to answer any requests immediately and with precision and brevity.`;
 
         question = `${promptPrefix}\n\n${question}.`;
 
