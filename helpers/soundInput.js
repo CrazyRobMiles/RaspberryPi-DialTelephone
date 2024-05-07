@@ -58,7 +58,4 @@ class SoundInput {
     }
 }
 
-
-
-
 module.exports = SoundInput;

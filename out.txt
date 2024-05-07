@@ -1,0 +1,8 @@
+{
+"metadata":{"confidence":-6.98433},"words":[{"word":"how","time":0.88,"duration":0.4},{"word":"are","time":1.38,"duration":0.14},{"word":"you","time":1.58,"duration":0.0400001}],
+"alternatives":[
+{"metadata":{"confidence":-12.7143},"words":[{"word":"how","time":0.88,"duration":0.4},{"word":"are","time":1.38,"duration":0.14},{"word":"you","time":1.58,"duration":0.0600001}]},
+{"metadata":{"confidence":-16.9947},"words":[{"word":"now","time":0.88,"duration":0.4},{"word":"are","time":1.38,"duration":0.14},{"word":"you","time":1.58,"duration":0.0400001}]}
+]
+}
+
