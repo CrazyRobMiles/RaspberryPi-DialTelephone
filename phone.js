@@ -317,14 +317,14 @@ class Phone{
                 'Handset replaced': () => { 
                     this.ringer.ding(); 
                     this.soundOutput.stopPlayback();
-                    this.questionMessageTimer = null;
+                    this.recordMessageTimerDate = null;
                     return 'REST'; 
                 },
                 'Timer tick': (date) => {
-                    if (this.questionMessageTimer){
-                        let waitTime = date - this.questionMessageTimer;
+                    if (this.recordMessageTimerDate){
+                        let waitTime = date - this.recordMessageTimerDate;
                         if (waitTime>this.receiveRingDelayMillis){
-                            this.questionMessageTimer = new Date();
+                            this.recordMessageTimerDate = new Date();
                             this.soundOutput.stopPlayback();
                             this.soundOutput.playFile('./sounds/handsetPickup.wav');
                             return 'RECORD_PICKUP_SOUND_PLAYING';
@@ -460,6 +460,12 @@ class Phone{
                     }
                     return 'INCOMING_SPEECH_DELAY';
                 }
+            },
+            PLAYING_SPEECH_MESSAGE : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.soundOutput.stopPlayback();
+                    return 'REST'; }
             },
             QUESTION_PICKUP_DELAY : {
                 'Handset replaced': () => { 
