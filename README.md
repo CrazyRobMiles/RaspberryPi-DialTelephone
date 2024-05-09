@@ -1,5 +1,6 @@
 # Raspberry Pi 
 ![Red Phone](images/RedPhone.jpg)
+
 Make an old-style dial telephone into something a bit more interesting.
 
 [![YouTube Screenshot](images/video.jpg)](https://youtu.be/aNzIdzsJkjI)
@@ -148,6 +149,24 @@ Will be developing the code on our PC or laptop. The version of Visual Studio Co
 The server should start up and you can interact with the phone. 
 ![Web Interface](images/web.png)
 If you want to make the server run automatically when the Raspberry Pi starts you can do this by editing the rc.local file. 
+# Adding sound input
+You can make your phone even more interesting by adding audio input. You can use this to record messages or, by using speech to text, understand voice commands. 
+## Sound input circuit
+
+You can add voice input to the phone by building a small circuit and connecting it to the carbon microphone in the telephone handset. The sound quality is not as good as a modern microphone, but it does work with speech recognition and it has the "authentic telephone" sound.
+
+![microphone converter circuit](images/Converter%20schematic_schem.png)
+
+The circuit above alows the phone handset microphone to be connected to a standard microphone input such as the one fitted to USB audio converter you might use with a Raspberry Pi. 
+## Recording audio
+The application uses the mic application to record audio. It is called from within the helper function /helpers/soundInput.js.
+
+## Speech to text software
+The updated phone software uses the Spchcat program you can find [here](https://github.com/petewarden/spchcat) The program runs on a Raspberry Pi Zero but it takes a few seconds to complete a conversion. 
+
+Follow the instructions on the repository to install the software. It is called from within the phone software by the helper function in /helpers/speechInput.js. 
+
+
 Have fun
 
 Rob Miles
