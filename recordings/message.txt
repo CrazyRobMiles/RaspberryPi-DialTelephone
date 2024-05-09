@@ -1,8 +1,16 @@
 {
-"metadata":{"confidence":-60.6589},"words":[{"word":"how","time":1.46,"duration":0.14},{"word":"about","time":1.62,"duration":0.22},{"word":"the","time":1.9,"duration":0.12},{"word":"phosphoric","time":2.04,"duration":0.78},{"word":"of","time":2.92,"duration":0.24},{"word":"cheese","time":3.32,"duration":0.18}],
-"alternatives":[
-{"metadata":{"confidence":-65.9803},"words":[{"word":"how","time":1.46,"duration":0.14},{"word":"about","time":1.62,"duration":0.22},{"word":"the","time":1.9,"duration":0.12},{"word":"phosphoric","time":2.04,"duration":0.78},{"word":"or","time":2.92,"duration":0.24},{"word":"cheese","time":3.32,"duration":0.18}]},
-{"metadata":{"confidence":-66.3964},"words":[{"word":"how","time":1.46,"duration":0.14},{"word":"about","time":1.62,"duration":0.22},{"word":"the","time":1.9,"duration":0.12},{"word":"phosphoric","time":2.04,"duration":0.78},{"word":"of","time":2.92,"duration":0.24},{"word":"cheese","time":3.32,"duration":0.2}]}
+
+    "metadata":
+        {"confidence":-8.31811},
+        "words":[{"word":"how","time":1.4,"duration":0.44},
+            {"word":"are","time":1.96,"duration":0.24},
+            {"word":"you","time":2.3,"duration":0.0599999}],
+        "alternatives":[
+            {"metadata":{"confidence":-14.5524},
+            "words":[{"word":"how","time":1.4,"duration":0.44},
+            {"word":"are","time":1.96,"duration":0.24},
+            {"word":"you","time":2.3,"duration":0.0799999}]},
+        {"metadata":{"confidence":-22.0179},"words":[{"word":"how","time":1.4,"duration":0.44},{"word":"are","time":1.96,"duration":0.24},{"word":"your","time":2.3,"duration":0.0799999}]}
 ]
 }
 
