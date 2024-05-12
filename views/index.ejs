@@ -25,10 +25,20 @@
     <div class="container mb-4">
         <form action="/sendMessage" method="POST">
             <div>
-                <label for="email">Message:</label>
+                <label for="message">Message:</label>
                 <input type="text" id="message" name="message" required class="form-control">
             </div>
             <button type="submit" class="btn btn-primary mt-4 btn-block w-100">Send the message</button>
+        </form>
+    </div>
+
+    <div class="container mb-4">
+        <form action="/sendQuestion" method="POST">
+            <div>
+                <label for="question">Question:</label>
+                <input type="text" id="question" name="question" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary mt-4 btn-block w-100">Send the question</button>
         </form>
     </div>
 
