@@ -1,12 +1,8 @@
 {
-"metadata":{"confidence":-6.96942},
-"words":[
-    {"word":"how","time":1.24,"duration":0.42},
-    {"word":"are","time":1.78,"duration":0.2},
-    {"word":"you","time":2.08,"duration":0.04}],
+"metadata":{"confidence":-50.159},"words":[{"word":"who","time":1.24,"duration":0.34},{"word":"wrote","time":1.66,"duration":0.26},{"word":"the","time":2.06,"duration":0.14},{"word":"tea","time":2.3,"duration":0.26},{"word":"shop","time":2.6,"duration":0.4},{"word":"yellow","time":3.08,"duration":0.46},{"word":"book","time":3.62,"duration":0.16}],
 "alternatives":[
-{"metadata":{"confidence":-12.4321},"words":[{"word":"how","time":1.24,"duration":0.42},{"word":"are","time":1.78,"duration":0.2},{"word":"you","time":2.08,"duration":0.0599999}]},
-{"metadata":{"confidence":-15.7497},"words":[{"word":"now","time":1.24,"duration":0.42},{"word":"are","time":1.78,"duration":0.2},{"word":"you","time":2.08,"duration":0.04}]}
+{"metadata":{"confidence":-51.3723},"words":[{"word":"who","time":1.24,"duration":0.34},{"word":"wrote","time":1.66,"duration":0.26},{"word":"the","time":2.06,"duration":0.14},{"word":"sea","time":2.28,"duration":0.28},{"word":"shop","time":2.6,"duration":0.4},{"word":"yellow","time":3.08,"duration":0.46},{"word":"book","time":3.62,"duration":0.16}]},
+{"metadata":{"confidence":-52.9615},"words":[{"word":"who","time":1.24,"duration":0.34},{"word":"wrote","time":1.66,"duration":0.26},{"word":"the","time":2.06,"duration":0.14},{"word":"tea","time":2.3,"duration":0.26},{"word":"shop","time":2.6,"duration":0.4},{"word":"yellow","time":3.08,"duration":0.46},{"word":"oak","time":3.7,"duration":0.0800002}]}
 ]
 }
 

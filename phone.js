@@ -91,6 +91,10 @@ class Phone{
                     this.ringStart = new Date();
                     return 'INCOMING_TEXT_MESSAGE_CALL'; 
                 },
+                'Incoming question': (text) => { 
+                    this.llm.askAI(text);
+                    return 'REST';
+                },
             },
 
             INCOMING_TEXT_MESSAGE_CALL:{
@@ -132,6 +136,11 @@ class Phone{
                 }
             },
             INCOMING_TEXT_PICKUP_SOUND_PLAYING : {
+                'Handset replaced': () => { 
+                    this.ringer.ding(); 
+                    this.ringStart = null;
+                    return 'REST'; 
+                },
                 'Timer tick': (date) => {
                     if(this.ringStart != null){
                         let waitTime = date - this.ringStart;
@@ -616,6 +625,10 @@ class Phone{
     
     acceptMessage(message){
         this.handleEvent('Incoming message',message);
+    }
+
+    acceptQuestion(question){
+        this.handleEvent('Incoming question',question);
     }
 
     speechDecodedSuccessfully(text){

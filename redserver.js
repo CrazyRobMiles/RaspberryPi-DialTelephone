@@ -27,8 +27,15 @@ var message = null;
 
 app.post('/sendMessage', (req, res) => {
   phone.acceptMessage(req.body.message);
-  res.render("index.ejs", {message:'Message sent'});
+  res.render("index.ejs", {message:'Message sent. The phone will ring immediately with the message.'});
 });
+
+app.post('/sendQuestion', (req, res) => {
+  phone.acceptQuestion(req.body.message);
+  res.render("index.ejs", {message:'Question sent. The phone will ring later with the answer.'});
+});
+
+
 
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
