@@ -1,7 +1,7 @@
 # Raspberry Pi 
-![Red Phone](images/RedPhone.jpg)
+![Red Phone](images/Phone%20and%20Exchange.jpg)
 
-Make an old-style dial telephone into something a bit more interesting.
+Make an old-style dial telephone into something a bit more interesting. Now with added Exchange.
 
 [![YouTube Screenshot](images/video.jpg)](https://youtu.be/aNzIdzsJkjI)
 
@@ -166,6 +166,33 @@ The updated phone software uses the Spchcat program you can find [here](https://
 
 Follow the instructions on the repository to install the software. It is called from within the phone software by the helper function in /helpers/speechInput.js. 
 
+# The Exchange
+![the instructions for the telephone](images/instructions.jpg)
+"The Exchange" is a Raspberry Pi running a Large Language Mode (LLM). You will need a Raspberry Pi 5 with 8Gb of memory and an SSD. The telephone can connect to this and send it questions which will be answered by a returned telephone call. Note that in the code the exchange has the network address http://ssdpi.local. YOu can change this by editing the LLM.js code in the helpers folder.
+
+## Installing the LLM
+You can install the LLM on your Pi by following the instructions [here](https://medium.com/@wesselbraakman/run-llama-on-your-raspberry-pi-5-without-using-ollama-7ebc128ff34e). This requires the use of a Linux PC (or a Windows PC running the Windows Subsystem for Linux).
+## Building and running the LLM web server
+Once you have installed the LLM on your Exchange Pi and tested it with the chat program you need to build and start the web service that the Raspberry Pi phone will talk to. This is the procedure for building the server.
+
+1.  Use Visual Studio Code to open the llma-cpp project that you installed on your Pi. 
+
+1. Install the CMake plugin for VS Code (I installed the Microsoft one)
+
+1. Set the development environment in Visual Studio Code (there is only one option on the PI).
+
+1.  Install cmake on the pi.
+
+1.  Use make from the terminal in Visual Studio Code to build the code
+
+1.  Start the server with the command below in the Visual Studio Terminal. Note the path to the llm and also the host.
+    ```
+    ./server -m models/llama-7b/ggml-model-q4_0.gguf -c 2048 --host 0.0.0.0
+    ```
+1.  You can now browse to the page (my pi is called ssdpi)
+    ```
+    http://ssdpi.local:8080/ 
+    ```
 
 Have fun
 
