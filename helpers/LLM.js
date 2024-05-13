@@ -11,15 +11,21 @@ class LLM{
     askAI(question) {
         console.log(`Asking ${this.llmURL} the question ${question}`);
 
-        let promptPrefix = `This is a conversation between User and Llama, a friendly chatbot. Llama is helpful, kind, honest, good at writing, and never fails to answer any requests immediately and with precision and brevity.`;
+        let promptPrefix = `Transcript of a dialog, where the User interacts with an Assistant named Exchange. Exchange is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision.
 
-        question = `${promptPrefix}\n\n${question}.`;
+User: Hello, Exchange.
+Exchange: Hello. How may I help you today?
+User: Please tell me the largest city in Europe.
+Exchange: Sure. The largest city in Europe is Moscow, the capital of Russia.
+User:`;
+
+        question = `${promptPrefix}${question}.`;
 
         let req = {
             method: 'POST',
             body: JSON.stringify({
                 prompt : question,
-                n_predict: 400,
+                n_predict: 256,
                 temperature: 0.7,
                 repeat_last_n: 256, // 0 = disable penalty, -1 = context size
                 repeat_penalty: 1.18, // 1.0 = disabled
@@ -36,6 +42,7 @@ class LLM{
                 grammar: '',
                 n_probs: 0, // no completion_probabilities,
                 image_data: [],
+                stop:["User:"],
                 cache_prompt: true,
                 api_key: ''
             })
