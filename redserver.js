@@ -26,16 +26,16 @@ app.get('/stopRing', (req, res) => {
 var message = null;
 
 app.post('/sendMessage', (req, res) => {
-  phone.acceptMessage(req.body.message);
-  res.render("index.ejs", {message:'Message sent. The phone will ring immediately with the message.'});
+  let message = req.body.message
+  phone.acceptMessage(message);
+  res.render("index.ejs", {message:`Message "${message}" sent. The phone will ring immediately with the message.`});
 });
 
 app.post('/sendQuestion', (req, res) => {
-  phone.acceptQuestion(req.body.message);
-  res.render("index.ejs", {message:'Question sent. The phone will ring later with the answer.'});
+  let question = req.body.question;
+  phone.acceptQuestion(question);
+  res.render("index.ejs", {message:`Question "${question}" sent. The phone will ring later with the answer.`});
 });
-
-
 
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
