@@ -95,6 +95,11 @@ class Phone{
                     this.llm.askAI(text);
                     return 'REST';
                 },
+                'Test ring requested':() => { 
+                    this.ringer.startRinging();
+                    this.ringStart = new Date();
+                    return 'TEST_RING'; 
+                }
             },
 
             INCOMING_TEXT_MESSAGE_CALL:{
@@ -210,6 +215,10 @@ class Phone{
                     this.ringer.stopRinging();
                     return 'REST'; 
                 },
+                'Test ring ended':() => { 
+                    this.ringer.stopRinging();
+                    return 'REST'; 
+                },               
                 'Timer tick': (date) => { 
                     if(this.ringStart != null){
                         let ringTime = date - this.ringStart;
@@ -658,6 +667,16 @@ class Phone{
 
     dialPulse(){
     }
+
+    startRinging()
+    {
+        this.handleEvent('Test ring requested');
+    }
+
+    stopRinging(){
+        this.handleEvent('Test ring ended');
+    }
+
 }
 
 module.exports = Phone;

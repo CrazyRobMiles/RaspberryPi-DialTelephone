@@ -1,8 +1,8 @@
 {
-"metadata":{"confidence":-46.6494},"words":[{"word":"how","time":0.62,"duration":0.48},{"word":"far","time":1.28,"duration":0.32},{"word":"is","time":1.7,"duration":0.48},{"word":"how","time":2.26,"duration":0.42},{"word":"fromentin","time":2.76,"duration":0.74}],
+"metadata":{"confidence":-28.8831},"words":[{"word":"how","time":1.56,"duration":0.34},{"word":"far","time":1.98,"duration":0.2},{"word":"is","time":2.26,"duration":0.14},{"word":"the","time":2.46,"duration":0.16},{"word":"earth","time":2.78,"duration":0.36},{"word":"from","time":3.22,"duration":0.24},{"word":"the","time":3.52,"duration":0.12},{"word":"sun","time":3.76,"duration":0.0999999}],
 "alternatives":[
-{"metadata":{"confidence":-47.5574},"words":[{"word":"how","time":0.62,"duration":0.48},{"word":"far","time":1.28,"duration":0.32},{"word":"is","time":1.7,"duration":0.48},{"word":"how","time":2.26,"duration":0.42},{"word":"problem","time":2.76,"duration":0.4}]},
-{"metadata":{"confidence":-47.6176},"words":[{"word":"how","time":0.62,"duration":0.48},{"word":"far","time":1.28,"duration":0.32},{"word":"is","time":1.7,"duration":0.48},{"word":"how","time":2.26,"duration":0.42},{"word":"robledo","time":2.8,"duration":0.66}]}
+{"metadata":{"confidence":-33.3507},"words":[{"word":"how","time":1.56,"duration":0.34},{"word":"far","time":1.98,"duration":0.2},{"word":"is","time":2.26,"duration":0.14},{"word":"the","time":2.46,"duration":0.16},{"word":"earth","time":2.78,"duration":0.36},{"word":"from","time":3.22,"duration":0.24},{"word":"the","time":3.52,"duration":0.12},{"word":"son","time":3.76,"duration":0.0999999}]},
+{"metadata":{"confidence":-34.4844},"words":[{"word":"how","time":1.56,"duration":0.34},{"word":"far","time":1.98,"duration":0.2},{"word":"is","time":2.26,"duration":0.14},{"word":"the","time":2.46,"duration":0.16},{"word":"earth","time":2.78,"duration":0.36},{"word":"from","time":3.22,"duration":0.24},{"word":"the","time":3.52,"duration":0.12},{"word":"sun","time":3.76,"duration":0.12}]}
 ]
 }
 
