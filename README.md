@@ -3,9 +3,16 @@
 
 Make an old-style dial telephone into something a bit more interesting. Now with added Exchange.
 
+## Videos
+
 [![YouTube Screenshot](images/video.jpg)](https://youtu.be/aNzIdzsJkjI)
 
-To find out more about the device click on the image above to see a short video.
+To find out more about the phone click on the image above to see a short video.
+
+[![YouTube Screenshot](images/ExchangeVideo.jpg)](https://youtu.be/p6Ti9BQiqs0)
+
+To see The Exchange in action click on the image above to see an  even shorter video.
+
 
 ## Building the device
 The parts you'll need are as follows:
