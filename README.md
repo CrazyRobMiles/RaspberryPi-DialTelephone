@@ -22,6 +22,7 @@ The parts you'll need are as follows:
 * I think the phone should be red, like the original “batphone” but the software will work with other colours.
 * A Raspberry Pi Zero 2. Any colour you like.
 * Two power switches for the bell. The author used a design which had dual D4184 MOSFETs. This can be driven directly by the GPIO signals from the Raspberry Pi.
+* Two 1N4007 1A 1000V Silicon Rectifier Diodes. These are wired across the outputs from the D4184 switches so that when the bell coils are switched off the voltage induced by collapse of the magnetic in coil doesn't destroy the switch. You can see them on the circuit diagram below. Make sure you wire them the correct way round, with the band towards the positive line. 
 * A power supply to convert 12 volts to 35 volts for the bell.
 * A power supply to convert 12 volts to 5 volts for the Raspberry Pi.
 * A 12-volt power supply for the above. 
